@@ -101,6 +101,8 @@ export default {
   resolve: {
     fallback: {
       fs: false,
+      http: false,
+      https: false,
     },
     alias: {
       // allow imports from 'ol/module' instead of specifiying the source path

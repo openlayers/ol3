@@ -45,6 +45,7 @@
     "url": "https://opencollective.com/openlayers"
   },
   "dependencies": {
+    "geotiff": "^1.0.0-beta.16",
     "ol-mapbox-style": "^6.1.1",
     "pbf": "3.2.1",
     "rbush": "^3.0.1"

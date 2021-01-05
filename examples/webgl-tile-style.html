@@ -1,0 +1,31 @@
+---
+layout: example.html
+title: WebGL Tile Layer Styles
+shortdesc: Styling raster tiles with WebGL.
+docs: >
+  The `style` property of a WebGL tile layer can be used to adjust properties like
+  `exposure`, `contrast`, and `saturation`.  Typically those values would be set to
+  numeric constants to apply a filter to imagery.  In this example, the style properties
+  are set to variables that can be updated based on application state.  Adjusting the
+  sliders results in a call to `layer.updateStyleVariables()` to use new values for the
+  associated style properties.
+tags: "webgl, style"
+cloak:
+  - key: get_your_own_D6rA4zTHduk6KOKTXzGB
+    value: Get your own API key at https://www.maptiler.com/cloud/
+---
+<div id="map" class="map"></div>
+<div id="controls">
+  <label>
+    <input id="exposure" type="range" min="-0.5" max="0.5" step="0.01">
+    <br>exposure <span id="exposure-value"></span>
+  </label>
+  <label>
+    <input id="contrast" type="range" min="-0.5" max="0.5" step="0.01">
+    <br>contrast <span id="contrast-value"></span>
+  </label>
+  <label>
+    <input id="saturation" type="range" min="-0.5" max="0.5" step="0.01">
+    <br>saturation <span id="saturation-value"></span>
+  </label>
+</div>

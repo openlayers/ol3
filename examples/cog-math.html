@@ -1,0 +1,11 @@
+---
+layout: example.html
+title: NDVI from a Sentinel 2 COG
+shortdesc: Calculating NDVI and applying a custom color map.
+docs: >
+  The GeoTIFF layer in this example draws from two Sentinel 2 sources: a red band and a near infrared band.
+  The layer style includes a `color` expression that calculates the Normalized Difference Vegetation Index (NDVI)
+  from values in the two bands.  The `interpolate` expression is used to map NDVI values to colors.
+tags: "cog, ndvi"
+---
+<div id="map" class="map"></div>

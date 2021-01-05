@@ -1,0 +1,37 @@
+---
+layout: example.html
+title: Sea Level (with WebGL)
+shortdesc: Render sea level at different elevations
+docs: >
+  <p>
+    The <code>style</code> property of a WebGL tile layer accepts a <code>color</code> expression that
+    can be used to modify pixel values before rendering.  Here, RGB tiles representing elevation
+    data are loaded and rendered so that values at or below sea level are blue, and values
+    above sea level are transparent.  The <code>color</code> expression operates on normalized pixel
+    values ranging from 0 to 1.  The <code>band</code> operator is used to select normalized values
+    from a single band.
+  </p><p>
+    After converting the normalized RGB values to elevation, the <code>interpolate</code> expression
+    is used to pick colors to apply at a given elevation.  Instead of using constant
+    numeric values as the stops in the colors array, the <code>var</code> operator allows you to
+    use a value that can be modified by your application.  When the user drags the
+    sea level slider, the <code>layer.updateStyleVariables()</code> function is called to update
+    the <code>level</code> style variable with the value from the slider.
+  </p>
+tags: "webgl, math, flood"
+cloak:
+  - key: get_your_own_D6rA4zTHduk6KOKTXzGB
+    value: Get your own API key at https://www.maptiler.com/cloud/
+---
+<div id="map" class="map"></div>
+<label>
+  Sea level
+  <input id="level" type="range" min="0" max="100" value="1"/>
+  +<span id="output"></span> m
+</label>
+<br>
+Go to
+<a class="location" data-center="-122.3267,37.8377" data-zoom="11">San Francisco</a>,
+<a class="location" data-center="-73.9338,40.6861" data-zoom="11">New York</a>,
+<a class="location" data-center="72.9481,18.9929" data-zoom="11">Mumbai</a>, or
+<a class="location" data-center="120.831,31.160" data-zoom="9">Shanghai</a>
