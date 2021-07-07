@@ -170,6 +170,7 @@ export function isTypeUnique(valueType) {
  * @property {Array<string>} variables List of variables used in the expression; contains **unprefixed names**
  * @property {Array<string>} attributes List of attributes used in the expression; contains **unprefixed names**
  * @property {Object<string, number>} stringLiteralsMap This object maps all encountered string values to a number
+ * @property {number} [bandCount] Number of bands per pixel.
  */
 
 /**
@@ -399,6 +400,27 @@ Operators['var'] = {
       context.variables.push(value);
     }
     return uniformNameForVariable(value);
+  },
+};
+
+Operators['band'] = {
+  getReturnType: function (args) {
+    return ValueTypes.NUMBER;
+  },
+  toGlsl: function (context, args) {
+    assertArgsCount(args, 1);
+    const band = args[0];
+    if (typeof band !== 'number') {
+      throw new Error('Band index must be a number');
+    }
+    const zeroBasedBand = band - 1;
+    const colorIndex = Math.floor(zeroBasedBand / 4);
+    let bandIndex = zeroBasedBand % 4;
+    if (band === context.bandCount && bandIndex === 1) {
+      // LUMINANCE_ALPHA - band 1 assigned to rgb and band 2 assigned to alpha
+      bandIndex = 3;
+    }
+    return `color${colorIndex}[${bandIndex}]`;
   },
 };
 
@@ -744,17 +766,16 @@ Operators['interpolate'] = {
     assertUniqueInferredType(args, outputType);
 
     const input = expressionToGlsl(context, args[1]);
-    let result = null;
+    const exponent = numberToGlsl(interpolation);
+
+    let result = '';
     for (let i = 2; i < args.length - 2; i += 2) {
       const stop1 = expressionToGlsl(context, args[i]);
-      const output1 = expressionToGlsl(context, args[i + 1], outputType);
+      const output1 =
+        result || expressionToGlsl(context, args[i + 1], outputType);
       const stop2 = expressionToGlsl(context, args[i + 2]);
       const output2 = expressionToGlsl(context, args[i + 3], outputType);
-      result = `mix(${
-        result || output1
-      }, ${output2}, pow(clamp((${input} - ${stop1}) / (${stop2} - ${stop1}), 0.0, 1.0), ${numberToGlsl(
-        interpolation
-      )}))`;
+      result = `mix(${output1}, ${output2}, pow(clamp((${input} - ${stop1}) / (${stop2} - ${stop1}), 0.0, 1.0), ${exponent}))`;
     }
     return result;
   },

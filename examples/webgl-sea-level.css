@@ -1,0 +1,13 @@
+#level {
+  display: inline-block;
+  width: 150px;
+  vertical-align: text-bottom;
+}
+
+a.location {
+  cursor: pointer;
+}
+
+#map {
+  background: #8bd4ff;
+}
