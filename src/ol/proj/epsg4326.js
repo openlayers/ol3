@@ -63,5 +63,6 @@ export const PROJECTIONS = [
   new EPSG4326Projection('EPSG:4326', 'neu'),
   new EPSG4326Projection('urn:ogc:def:crs:OGC:1.3:CRS84'),
   new EPSG4326Projection('urn:ogc:def:crs:OGC:2:84'),
+  new EPSG4326Projection('http://www.opengis.net/def/crs/OGC/1.3/CRS84', 'neu'),
   new EPSG4326Projection('http://www.opengis.net/gml/srs/epsg.xml#4326', 'neu'),
 ];
