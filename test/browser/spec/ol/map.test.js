@@ -270,6 +270,13 @@ describe('ol.Map', function () {
               features: [new Feature(new Point([0, 0]))],
             }),
           }),
+          new VectorLayer({
+            source: new VectorSource({
+              loader: function (extent, resolution, projection) {
+                this.addFeature(new Feature(new Point([0, 0])));
+              },
+            }),
+          }),
         ],
       });
     });

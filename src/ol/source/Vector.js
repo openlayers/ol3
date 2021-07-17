@@ -983,7 +983,7 @@ class VectorSource extends Source {
       }
     }
     this.loading =
-      this.loader_ === VOID ? false : this.loadingExtentsCount_ > 0;
+      this.loader_.length < 4 ? false : this.loadingExtentsCount_ > 0;
   }
 
   refresh() {
