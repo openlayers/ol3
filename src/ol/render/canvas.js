@@ -347,7 +347,8 @@ function measureText(font, text) {
  * @return {number} Width.
  */
 export function measureTextWidth(font, text) {
-  return measureText(font, text).width;
+  const lines = text.split('\n');
+  return measureTextWidths(font, lines, []);
 }
 
 /**
@@ -377,7 +378,7 @@ export function measureTextWidths(font, lines, widths) {
   const numLines = lines.length;
   let width = 0;
   for (let i = 0; i < numLines; ++i) {
-    const currentWidth = measureTextWidth(font, lines[i]);
+    const currentWidth = measureText(font, lines[i]).width;
     width = Math.max(width, currentWidth);
     widths.push(currentWidth);
   }
