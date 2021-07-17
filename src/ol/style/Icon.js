@@ -32,7 +32,7 @@ import {getUid} from '../util.js';
  * to provide the size of the image, with the `imgSize` option.
  * @property {Array<number>} [offset=[0, 0]] Offset, which, together with the size and the offset origin, define the
  * sub-rectangle to use from the original icon image.
- * @property {Array<number>} [displacement=[0,0]] Displacement the icon
+ * @property {Array<number>} [displacement=[0,0]] Displacement of the icon.
  * @property {import("./IconOrigin.js").default} [offsetOrigin='top-left'] Origin of the offset: `bottom-left`, `bottom-right`,
  * `top-left` or `top-right`.
  * @property {number} [opacity=1] Opacity of the icon.
@@ -244,53 +244,50 @@ class Icon extends ImageStyle {
    * @api
    */
   getAnchor() {
-    if (this.normalizedAnchor_) {
-      return this.normalizedAnchor_;
-    }
-    let anchor = this.anchor_;
-    const size = this.getSize();
-    if (
-      this.anchorXUnits_ == IconAnchorUnits.FRACTION ||
-      this.anchorYUnits_ == IconAnchorUnits.FRACTION
-    ) {
-      if (!size) {
-        return null;
-      }
-      anchor = this.anchor_.slice();
-      if (this.anchorXUnits_ == IconAnchorUnits.FRACTION) {
-        anchor[0] *= size[0];
-      }
-      if (this.anchorYUnits_ == IconAnchorUnits.FRACTION) {
-        anchor[1] *= size[1];
-      }
-    }
-
-    if (this.anchorOrigin_ != IconOrigin.TOP_LEFT) {
-      if (!size) {
-        return null;
-      }
-      if (anchor === this.anchor_) {
+    let anchor = this.normalizedAnchor_;
+    if (!anchor) {
+      anchor = this.anchor_;
+      const size = this.getSize();
+      if (
+        this.anchorXUnits_ == IconAnchorUnits.FRACTION ||
+        this.anchorYUnits_ == IconAnchorUnits.FRACTION
+      ) {
+        if (!size) {
+          return null;
+        }
         anchor = this.anchor_.slice();
+        if (this.anchorXUnits_ == IconAnchorUnits.FRACTION) {
+          anchor[0] *= size[0];
+        }
+        if (this.anchorYUnits_ == IconAnchorUnits.FRACTION) {
+          anchor[1] *= size[1];
+        }
       }
-      if (
-        this.anchorOrigin_ == IconOrigin.TOP_RIGHT ||
-        this.anchorOrigin_ == IconOrigin.BOTTOM_RIGHT
-      ) {
-        anchor[0] = -anchor[0] + size[0];
+
+      if (this.anchorOrigin_ != IconOrigin.TOP_LEFT) {
+        if (!size) {
+          return null;
+        }
+        if (anchor === this.anchor_) {
+          anchor = this.anchor_.slice();
+        }
+        if (
+          this.anchorOrigin_ == IconOrigin.TOP_RIGHT ||
+          this.anchorOrigin_ == IconOrigin.BOTTOM_RIGHT
+        ) {
+          anchor[0] = -anchor[0] + size[0];
+        }
+        if (
+          this.anchorOrigin_ == IconOrigin.BOTTOM_LEFT ||
+          this.anchorOrigin_ == IconOrigin.BOTTOM_RIGHT
+        ) {
+          anchor[1] = -anchor[1] + size[1];
+        }
       }
-      if (
-        this.anchorOrigin_ == IconOrigin.BOTTOM_LEFT ||
-        this.anchorOrigin_ == IconOrigin.BOTTOM_RIGHT
-      ) {
-        anchor[1] = -anchor[1] + size[1];
-      }
+      this.normalizedAnchor_ = anchor;
     }
     const displacement = this.getDisplacement();
-    anchor[0] -= displacement[0];
-    anchor[1] += displacement[1];
-
-    this.normalizedAnchor_ = anchor;
-    return this.normalizedAnchor_;
+    return [anchor[0] - displacement[0], anchor[1] + displacement[1]];
   }
 
   /**

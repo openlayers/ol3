@@ -204,6 +204,16 @@ class ImageStyle {
   }
 
   /**
+   * Set the displacement.
+   *
+   * @param {Array<number>} displacement Displacement.
+   * @api
+   */
+  setDisplacement(displacement) {
+    this.displacement_ = displacement;
+  }
+
+  /**
    * Set the opacity.
    *
    * @param {number} opacity Opacity.

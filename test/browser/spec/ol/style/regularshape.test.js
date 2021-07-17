@@ -87,6 +87,7 @@ describe('ol.style.RegularShape', function () {
       expect(style.getDisplacement()).to.an('array');
       expect(style.getDisplacement()[0]).to.eql(0);
       expect(style.getDisplacement()[1]).to.eql(0);
+      expect(style.getAnchor()).to.eql([5, 5]);
     });
     it('will use the larger radius to calculate the size', function () {
       let style = new RegularShape({
@@ -109,6 +110,12 @@ describe('ol.style.RegularShape', function () {
       expect(style.getDisplacement()).to.an('array');
       expect(style.getDisplacement()[0]).to.eql(10);
       expect(style.getDisplacement()[1]).to.eql(20);
+      expect(style.getAnchor()).to.eql([-5, 25]);
+      style.setDisplacement([20, 10]);
+      expect(style.getDisplacement()).to.an('array');
+      expect(style.getDisplacement()[0]).to.eql(20);
+      expect(style.getDisplacement()[1]).to.eql(10);
+      expect(style.getAnchor()).to.eql([-15, 15]);
     });
   });
 

@@ -198,6 +198,11 @@ describe('ol.style.Icon', function () {
         size[0] / 2 - 20,
         size[1] / 2 + 10,
       ]);
+      iconStyle.setDisplacement([10, 20]);
+      expect(iconStyle.getAnchor()).to.eql([
+        size[0] / 2 - 10,
+        size[1] / 2 + 20,
+      ]);
     });
   });
 

@@ -128,12 +128,6 @@ class RegularShape extends ImageStyle {
 
     /**
      * @private
-     * @type {Array<number>}
-     */
-    this.anchor_ = null;
-
-    /**
-     * @private
      * @type {import("../size.js").Size}
      */
     this.size_ = null;
@@ -177,7 +171,12 @@ class RegularShape extends ImageStyle {
    * @api
    */
   getAnchor() {
-    return this.anchor_;
+    const size = this.size_;
+    if (!size) {
+      return null;
+    }
+    const displacement = this.getDisplacement();
+    return [size[0] / 2 - displacement[0], size[1] / 2 + displacement[1]];
   }
 
   /**
@@ -467,9 +466,7 @@ class RegularShape extends ImageStyle {
   render() {
     this.renderOptions_ = this.createRenderOptions();
     const size = this.renderOptions_.size;
-    const displacement = this.getDisplacement();
     this.canvas_ = {};
-    this.anchor_ = [size / 2 - displacement[0], size / 2 + displacement[1]];
     this.size_ = [size, size];
   }
 
